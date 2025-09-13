@@ -1,5 +1,4 @@
 import { bricolage_grotesque } from "@/lib/fonts";
-import Image from "next/image";
 import Link from "next/link";
 import { RiGithubFill } from "react-icons/ri";
 
@@ -12,15 +11,6 @@ export default function Footer() {
 						href='/'
 						className={`text-lg max-sm:text-lg font-bold flex items-center`}
 					>
-						<span>
-							<Image
-								src={"/letter-g.png"}
-								alt='logo'
-								height={21}
-								width={21}
-								className='rounded-xl max-sm:h-6 max-sm:w-6'
-							/>
-						</span>
 						<span className='ml-[-3px]'>Anonymous</span>
 					</a>
 				</div>
@@ -31,7 +21,7 @@ export default function Footer() {
 						target='_blank'
 						className='underline text-orange-500 dark:text-orange-300'
 					>
-						Fardeen
+						Dhruv
 					</Link>
 				</div>
 				<div className='flex gap-2'>

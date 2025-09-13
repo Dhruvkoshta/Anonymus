@@ -5,7 +5,6 @@ import Link from "next/link";
 import axios from "axios";
 import { Button } from "./ui/button";
 import { bricolage_grotesque } from "@/lib/fonts";
-import Image from "next/image";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import { MoonIcon, SunIcon } from "lucide-react";
 
@@ -29,15 +28,6 @@ function Navbar() {
 					href='/'
 					className={`text-2xl max-sm:text-lg font-bold max-sm:mb-0 mb-4 md:mb-0 flex max-sm:items-center`}
 				>
-					<span>
-						<Image
-							src={"/letter-g.png"}
-							alt='logo'
-							height={30}
-							width={30}
-							className='rounded-xl max-sm:h-6 max-sm:w-6'
-						/>
-					</span>
 					<span className='ml-[-3px]'>Anonymous</span>
 				</a>
 
