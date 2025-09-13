@@ -2,7 +2,7 @@
 
 ## 📖 Introduction
 
-Ghostgram is an anonyms messaging platform that allow uses to receive or send message without revealing their identity.
+Anonymus is an anonyms messaging platform that allow uses to receive or send message without revealing their identity.
 
 ## 🛠️ Technologies Used
 
@@ -10,7 +10,7 @@ Ghostgram is an anonyms messaging platform that allow uses to receive or send me
 - TypeScript
 - Postgres
 - Gemini AI
-- Nodemailer
+- Resend
 - Better Auth
 - Drizzle
 - React Hook Form
@@ -25,7 +25,7 @@ To clone the repository locally, use the following commands:
 
 ```bash
 git clone
-cd ghostgram
+cd anonymus
 ```
 
 ### Installation
@@ -36,11 +36,11 @@ bun install
 Create a `.env` file in the root folder of your project. Update it following the convention of the `.env.example` file. 
 Here's an example:
 ```
-POSTGRES_URL=
-NEXT_AUTH_SECRET=
+DATABASE_URL=
+JWT_SECRET=
 GEMINI_API_KEY=
-NODEMAILER_SENDER_EMAIL=
-SENDER_PASSWORD=
+RESEND_API_KEY=
+RESEND_FROM_EMAIL=
 ```
 
 ### Running the Project
