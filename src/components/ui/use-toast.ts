@@ -10,7 +10,10 @@ type ToasterToast = {
   title?: React.ReactNode
   description?: React.ReactNode
   action?: React.ReactElement<typeof ToastAction>
-} & ( // This is the part that was missing
+  // runtime controlled fields
+  open?: boolean
+  duration?: number
+} & (
   | { variant: "default" }
   | { variant: "destructive" }
 )
@@ -84,13 +87,20 @@ function genId() {
   return count.toString()
 }
 
+// Allow callers to omit id and variant; we'll generate id and default variant.
+type ToastOptions = Omit<ToasterToast, "id" | "variant"> & {
+  id?: string
+  variant?: "default" | "destructive"
+  // duration is used in effect but not part of base type; make it optional here
+  duration?: number
+}
+
 function useToast() {
   const [state, dispatch] = React.useReducer(reducer, { toasts: [] })
 
   React.useEffect(() => {
     state.toasts.forEach((toast) => {
       if (toast.open === false) {
-        // @ts-expect-error: Toast duration is optional
         if (toast.duration) {
           setTimeout(() => {
             dispatch({ type: "REMOVE_TOAST", toastId: toast.id })
@@ -104,10 +114,12 @@ function useToast() {
     })
   }, [state.toasts])
 
-  const toast = React.useCallback((props: ToasterToast) => {
-    const id = genId()
+  const toast = React.useCallback((props: ToastOptions) => {
+    const id = props.id ?? genId()
+    const variant = props.variant ?? "default"
 
-    dispatch({ type: "ADD_TOAST", toast: { ...props, id, open: true } })
+    // include open flag for reducer control; coerce to ToasterToast shape with required fields
+    dispatch({ type: "ADD_TOAST", toast: { ...props, id, variant, open: true } as unknown as ToasterToast })
 
     return { id }
   }, [])

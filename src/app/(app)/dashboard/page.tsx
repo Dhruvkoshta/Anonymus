@@ -6,13 +6,9 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
-interface Message {
-	id: string;
-	content: string;
-	createdAt: Date;
-}
+// use shared Message type from types
+import { ApiResponse, Message } from "@/types/ApiResponse";
 import { AcceptMessageSchema } from "@/schemas/acceptMessageSchema";
-import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import React, { useCallback, useEffect, useState } from "react";
@@ -77,7 +73,7 @@ function UserDashboard() {
 			setIsSwitchLoading(false);
 			try {
 				const response = await axios.get<ApiResponse>("/api/get-messages");
-				setMessages(response.data.messages || []);
+				setMessages((response.data.messages as Message[]) || []);
 				if (refresh) {
 					toast({
 						id: Date.now().toString(),

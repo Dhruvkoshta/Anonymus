@@ -4,7 +4,7 @@ import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
-    await dbConnect();
+    // db is initialized in lib/dbConnect; no explicit connect call needed
     const { username, email } = await request.json();
 
     try {
@@ -21,14 +21,15 @@ export async function POST(request: Request) {
             );
         }
 
-        const isCodeNotExpired = new Date(user[0].verifyCodeExpiry) > new Date();
+        const now = new Date();
+        const isCodeNotExpired = !!user[0].verifyCodeExpiry && new Date(user[0].verifyCodeExpiry) > now;
         if (isCodeNotExpired) {
             return Response.json(
                 {
                     success: true,
                     message: `Your code is not expired yet, use this code ${user[0].verifyCode}`,
                 },
-                { status: 201 }
+                { status: 200 }
             );
         }
 
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
                     success: true,
                     message: `You are already verified`,
                 },
-                { status: 201 }
+                { status: 200 }
             );
         }
 
@@ -57,16 +58,16 @@ export async function POST(request: Request) {
                     success: false,
                     message: 'Error while sending the verification code',
                 },
-                { status: 500 }
+                { status: 502 }
             );
         }
 
         return Response.json(
             {
                 success: true,
-                message: 'Verification code send successfully',
+                message: 'Verification code sent successfully',
             },
-            { status: 201 }
+            { status: 200 }
         );
 
     } catch (error) {
